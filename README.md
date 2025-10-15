@@ -31,7 +31,6 @@ This project automates a key booking.com user flow using Java, Selenide, and Tes
 4. Generate Allure report after tests:
    ```
    allure serve target/allure-results
-
 ## Project Structure
 - `/src/main/java/com/booking/pages` - Page Object classes
 - `/src/test/java/com/booking` - Test classes
