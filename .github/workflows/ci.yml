@@ -13,7 +13,7 @@ jobs:
           java-version: 17
 
       - name: Run tests
-        run: ./gradlew clean test
+        run: mvn clean test
 
       - name: Load test report history
         uses: actions/checkout@v3
