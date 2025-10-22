@@ -1,7 +1,5 @@
 package com.booking.pages;
 
-import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -35,6 +33,7 @@ public class SearchProductPage {
     private static final SelenideElement PLUS_BUTTON = $("div[data-testid='occupancy-popup'] button:nth-of-type(2)");
     private static final SelenideElement POPUP_CLOSE = $("button[aria-label='Dismiss sign in information.']");
     private static final SelenideElement OVERVIEW_TAB = $(byId("overview-tab-trigger"));
+    private static final SelenideElement FACILITIES_TAB = $(byId("facilities-tab-trigger"));
     private static final SelenideElement PRICE = $(".totalPrice span");
 
 
@@ -77,7 +76,7 @@ public class SearchProductPage {
     }
 
     private SelenideElement getAminityPresent(String aminity){
-        return $$("div[data-testid='property-most-popular-facilities-wrapper'] div")
+        return $$("ul li span")
                 .findBy(text(aminity));
     }
 
@@ -128,16 +127,17 @@ public class SearchProductPage {
         }
         getShowAllFacility_Button().shouldBe(visible).click();
         getFilter(facility).click();
-        getProductTitle().shouldBe(visible, Duration.ofSeconds(6000)).scrollTo().click();
-        Selenide.Wait().until(webDriver ->
-                Selenide.executeJavaScript("return document.readyState").equals("complete"));
+        getProductTitle().shouldBe(visible, Duration.ofSeconds(6));
+        sleep(2000);
+        getProductTitle().scrollTo().click();
     }
 
     public boolean isPriceDisplayedAndHotTubAvailable(String amenity){
         OVERVIEW_TAB.shouldBe(visible);
         boolean priceAvailable = PRICE.text().matches(".*\\d+.*");
-        boolean hotTubAmenity = getAminityPresent(amenity).isDisplayed();
-        return hotTubAmenity && priceAvailable;
+        FACILITIES_TAB.click();
+       getAminityPresent(amenity).shouldBe(visible,Duration.ofSeconds(10));
+        return priceAvailable;
     }
 }
 

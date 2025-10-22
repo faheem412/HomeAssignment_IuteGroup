@@ -21,15 +21,21 @@ public class FillDetailsPage {
     private static final SelenideElement FIRSTNAME = $("input[data-testid= 'user-details-firstname'");
     private static final SelenideElement LASTNAME = $("input[data-testid= 'user-details-lastname'");
     private static final SelenideElement EMAIL = $("input[data-testid= 'user-details-email'");
+    private static final SelenideElement ADDRESS = $("input[data-testid= 'user-details-address1'");
+    private static final SelenideElement CITY = $("input[data-testid= 'user-details-city'");
     private static final SelenideElement COUNTRY = $("select[data-testid= 'user-details-cc1']");
     private static final SelenideElement PHONE = $("input[data-testid='phone-number-input']");
     private static final SelenideElement BOOK_BUTTON = $("button[name='book']");
     private static final SelenideElement PAYMENT = $("#payment-timing-options-header-title");
 
-    public boolean enterDetailsAndVerify(String firstName, String lastName, String email, String country, int number) {
+    public boolean enterDetailsAndVerify(String firstName, String lastName, String email, String address, String city, String country, int number) {
         FIRSTNAME.shouldBe(visible, Duration.ofSeconds(8)).setValue(firstName);
         LASTNAME.setValue(lastName);
         EMAIL.setValue(email);
+        if(ADDRESS.isDisplayed() && CITY.isDisplayed()){
+            ADDRESS.setValue(address);
+            CITY.setValue(city);
+        }
         COUNTRY.selectOption(country);
         PHONE.setValue(String.valueOf(number));
 

@@ -53,6 +53,14 @@ public class ReadConfig {
         return properties.getProperty("email");
     }
 
+    public static String getAddress() {
+        return properties.getProperty("address");
+    }
+
+    public static String getCity() {
+        return properties.getProperty("city");
+    }
+
     public static String getCountry() {
         return properties.getProperty("country");
     }

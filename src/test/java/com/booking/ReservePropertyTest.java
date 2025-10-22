@@ -4,14 +4,11 @@ import com.booking.pages.FillDetailsPage;
 import com.booking.pages.ReserveProductPage;
 import com.booking.pages.SearchProductPage;
 import com.booking.util.ReadConfig;
-import io.qameta.allure.*;
-import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Step;
 import io.qameta.allure.Story;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -32,6 +29,8 @@ public class ReservePropertyTest extends BaseTest {
     private final String FIRST_NAME = ReadConfig.getFirstName();
     private final String LAST_NAME = ReadConfig.getLastName();
     private final String EMAIL = ReadConfig.getEmail();
+    private final String ADDRESS = ReadConfig.getAddress();
+    private final String CITY = ReadConfig.getCity();
     private final String COUNTRY = ReadConfig.getCountry();
     private final int PHONE = Integer.parseInt(ReadConfig.getPhone());
 
@@ -52,7 +51,6 @@ public class ReservePropertyTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
 
     @Test(priority = 1)
-    @Step("Verify User able to Search Property")
     public void verifyUserAbleToSearchProperty() {
         SearchProductPage searchProductPage = new SearchProductPage();
         searchProductPage.verifyHomePage()
@@ -65,7 +63,6 @@ public class ReservePropertyTest extends BaseTest {
                 "No search results found for the given destination.");
 
         // Apply Hot tub filter and verify property details
-        Allure.step("Verify the user can apply 'Hot tub' filter and property amenities are visible.");
         searchProductPage.applyHotTubFilter(AMENITY);
         switchTo().window(1);
         Assert.assertTrue(searchProductPage.isPriceDisplayedAndHotTubAvailable(AMENITY),
@@ -84,7 +81,6 @@ public class ReservePropertyTest extends BaseTest {
     @Severity(SeverityLevel.CRITICAL)
 
     @Test(dependsOnMethods = "verifyUserAbleToSearchProperty")
-    @Step("Verify User able to Reserve Property")
     public void verifyUserAbleToReserveProperty() {
         new ReserveProductPage().userClicksOnReserveProperty();
     }
@@ -103,9 +99,8 @@ public class ReservePropertyTest extends BaseTest {
     @Severity(SeverityLevel.NORMAL)
 
     @Test(dependsOnMethods = "verifyUserAbleToReserveProperty")
-    @Step("Verify User able to Fill Details")
     public void verifyUserAbleToFillDetails() {
-        Assert.assertTrue(new FillDetailsPage().enterDetailsAndVerify(FIRST_NAME, LAST_NAME, EMAIL, COUNTRY, PHONE),
+        Assert.assertTrue(new FillDetailsPage().enterDetailsAndVerify(FIRST_NAME, LAST_NAME, EMAIL, ADDRESS, CITY, COUNTRY, PHONE),
                 "Verification of user details failed.");
     }
 
